@@ -11,9 +11,9 @@
 	</parent>
 
 	<groupId>udem.SampleJava.group3</groupId>
-	<artifactId>SampleJava</artifactId>
+	<artifactId>DevOpsJava</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>SampleJava_Group3</name>
+	<name>DevOpsJava</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
