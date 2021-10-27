@@ -12,8 +12,8 @@ script:
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=LazosFamiliares_DevOpsJava
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
   - docker build -t lazos-travis-docker .
-  - docker tag lazos-travis-docker $DOCKER_USERNAME/lazos-travis-docker:v1
+  - docker tag lazos-travis-docker juanphozm/lazos-travis-docker:latest
   - docker images
-  - docker push $DOCKER_USER/lazos-travis-docker:v1
+  - docker push juanphozm/lazos-travis-docker:latest
 before_install:
   - chmod +x mvnw
