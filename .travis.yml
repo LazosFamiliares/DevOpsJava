@@ -10,11 +10,10 @@ addons:
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=LazosFamiliares_DevOpsJava
-  - docker build -t lazos-travis-docker .
-after_success:
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - docker build -t lazos-travis-docker .
+  - docker tag lazos-travis-docker $DOCKER_USERNAME/lazos-travis-docker:v1
   - docker images
-  - docker tag lazos-travis-docker $DOCKER_USERNAME/lazos-travis-docker:latest
-  - docker push $DOCKER_USER/lazos-travis-docker:latest
+  - docker push $DOCKER_USER/lazos-travis-docker:v1
 before_install:
   - chmod +x mvnw
