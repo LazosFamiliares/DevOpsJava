@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import udem.SampleJava.servingwebcontent.pojo.WeatherRoot;
 
 @RestController
-@RequestMapping("weather")
+@RequestMapping("/weather")
 public class WeatherController {
 
     WeatherService weatherServices = null;
@@ -26,7 +26,7 @@ public class WeatherController {
     }
 
     @ApiOperation(value = "Retorna el clima dependiendo de la locación y el país ", response = String.class)
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna los datos del clima JSON"),})
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna los datos del clima JSON en Kelvin por defecto"),})
     @RequestMapping(value = "/findByZipAndCountry/{zip}/{country}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<?> findByZipAndCountry(@ApiParam(value = "Zip of the location", required = true) @PathVariable("zip") String zip,
                                                  @ApiParam(value = "Country of the location", required = true) @PathVariable("country") String country){

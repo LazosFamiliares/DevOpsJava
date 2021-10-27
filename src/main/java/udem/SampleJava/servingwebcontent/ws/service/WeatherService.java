@@ -24,4 +24,17 @@ public class WeatherService {
 
         return weatherRoot;
     }
+
+    public WeatherRoot getWeatherByTemp(String zip, String country) {
+        RestTemplate restTemplate = new RestTemplate();
+        String urlRestWS = String.format("%s?zip=%s,%s&units=metric&APPID=%s",
+                WEATHER_URL,
+                zip,
+                country,
+                API_KEY);
+        WeatherRoot weatherRoot = restTemplate.getForObject(urlRestWS, WeatherRoot.class);
+        log.info(weatherRoot.toString());
+
+        return weatherRoot;
+    }
 }

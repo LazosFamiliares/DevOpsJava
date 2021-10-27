@@ -1,4 +1,4 @@
-package udem.SampleJava.servingwebcontent;
+package udem.SampleJava.servingwebcontent.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
