@@ -1,13 +1,19 @@
 package udem.SampleJava.group3.SampleJava;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 import udem.SampleJava.servingwebcontent.ServingWebContentApplication;
+import udem.SampleJava.servingwebcontent.controller.GreetingController;
+import udem.SampleJava.servingwebcontent.controller.LogController;
+import udem.SampleJava.servingwebcontent.controller.WeatherController;
 
 @SpringBootTest(classes={ServingWebContentApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SmokeTest {
-    /*
+
     @LocalServerPort
     private int port;
 
@@ -16,10 +22,24 @@ public class SmokeTest {
 
     @Autowired
     private GreetingController controller;
+    @Autowired
+    private LogController controller2;
+    @Autowired
+    private WeatherController controller3;
 
     @Test
     public void contextLoads() throws Exception {
         assertThat(controller).isNotNull();
+    }
+
+    @Test
+    public void LogLoads() throws Exception {
+        assertThat(controller2).isNotNull();
+    }
+
+    @Test
+    public void weatherLoads() throws Exception {
+        assertThat(controller3).isNotNull();
     }
 
     @Test
@@ -39,5 +59,11 @@ public class SmokeTest {
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/greeting?name=juan",
                 String.class)).contains("Hello, juan!");
     }
-    */
+
+    @Test
+    public void LoggerShouldReturntMessage() throws Exception {
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/Logger",
+                String.class)).contains("Howdy! Check out the Logs to see the output...");
+    }
+
 }
