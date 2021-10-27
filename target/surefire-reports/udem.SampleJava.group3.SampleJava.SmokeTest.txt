@@ -1,0 +1,38 @@
+-------------------------------------------------------------------------------
+Test set: udem.SampleJava.group3.SampleJava.SmokeTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 3, Errors: 4, Skipped: 0, Time elapsed: 0.397 s <<< FAILURE! - in udem.SampleJava.group3.SampleJava.SmokeTest
+weatherLoads  Time elapsed: 0.329 s  <<< FAILURE!
+java.lang.AssertionError: 
+
+Expecting actual not to be null
+	at udem.SampleJava.group3.SampleJava.SmokeTest.weatherLoads(SmokeTest.java:42)
+
+LoggerShouldReturntMessage  Time elapsed: 0 s  <<< ERROR!
+java.lang.NullPointerException
+	at udem.SampleJava.group3.SampleJava.SmokeTest.LoggerShouldReturntMessage(SmokeTest.java:70)
+
+IndexShouldReturnDefaultMessage  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException
+	at udem.SampleJava.group3.SampleJava.SmokeTest.IndexShouldReturnDefaultMessage(SmokeTest.java:52)
+
+contextLoads  Time elapsed: 0 s  <<< FAILURE!
+java.lang.AssertionError: 
+
+Expecting actual not to be null
+	at udem.SampleJava.group3.SampleJava.SmokeTest.contextLoads(SmokeTest.java:37)
+
+greetingShouldReturnDefaultMessage  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException
+	at udem.SampleJava.group3.SampleJava.SmokeTest.greetingShouldReturnDefaultMessage(SmokeTest.java:58)
+
+greetingShouldReturntMessageWithParam  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException
+	at udem.SampleJava.group3.SampleJava.SmokeTest.greetingShouldReturntMessageWithParam(SmokeTest.java:64)
+
+LogLoads  Time elapsed: 0 s  <<< FAILURE!
+java.lang.AssertionError: 
+
+Expecting actual not to be null
+	at udem.SampleJava.group3.SampleJava.SmokeTest.LogLoads(SmokeTest.java:47)
+
