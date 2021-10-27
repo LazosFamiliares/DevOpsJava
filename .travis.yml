@@ -13,9 +13,9 @@ script:
   - docker build -t lazos-travis-docker .
 after_success:
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-  - docker tag back $DOCKER_USER/lazos-travis-docker:$TRAVIS_BUILD_NUMBER
-  - docker push $DOCKER_USER/back:$TRAVIS_BUILD_NUMBER
-  - docker tag back $DOCKER_USER/lazos-travis-docker:latest
-  - docker push $DOCKER_USER/back:latest
+  - docker -t lazos-travis-docker $DOCKER_USER/lazos-travis-docker:$TRAVIS_BUILD_NUMBER
+  - docker push $DOCKER_USER/lazos-travis-docker:$TRAVIS_BUILD_NUMBER
+  - docker -t lazos-travis-docker $DOCKER_USER/lazos-travis-docker:latest
+  - docker push $DOCKER_USER/lazos-travis-docker:latest
 before_install:
   - chmod +x mvnw
