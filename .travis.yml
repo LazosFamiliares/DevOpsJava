@@ -13,14 +13,11 @@ before_install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USER" --password-stdin registry.heroku.com/lazos-devops-docker/web
 script:
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=LazosFamiliares_DevOpsJava
   - docker build -t lazos-travis-docker .
   - docker tag lazos-travis-docker juanphozm/lazos-travis-docker:latest
-deploy:
-  provider: script
-  script:
-    docker push juanphozm/lazos-travis-docker:latest
-    heroku stack:set container --app lazos-devops-docker
-    heroku container:push web --app lazos-devops-docker
-    heroku container:release web --app lazos-devops-docker
-  on:
-    branch: main
+  - docker push juanphozm/lazos-travis-docker:latest
+  - heroku container:login
+  - heroku stack:set container --app lazos-devops-docker
+  - heroku container:push web --app lazos-devops-docker
+  - heroku container:release web --app lazos-devops-docker
