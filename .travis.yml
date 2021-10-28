@@ -25,4 +25,4 @@ before_install:
   - chmod +x mvnw
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
   - wget -qO- https://toobelt.heroku.com/install.sh | sh
-  - docker login -u $HEROKU_USER -p $HEROKU_PASSWORD registry.heroku.com
+  - docker login -u $HEROKU_USER --password-stdin registry.heroku.com
