@@ -23,6 +23,6 @@ script:
   - heroku container:push --recursive
 before_install:
   - chmod +x mvnw
-  - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - wget -qO- https://toobelt.heroku.com/install.sh | sh
-  - echo $HEROKU_PASSWORD | docker login -u $HEROKU_USER --password-stdin
+  - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USER" --password-stdin
