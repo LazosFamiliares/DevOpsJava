@@ -7,19 +7,20 @@ addons:
     organization: "lazosfamiliares1"
     token:
       secure: "PsDwZnkvddsNXdULxTVouRyoA6CCcvOlgbmI/rre0sPcLOlwcpWIPxOqmZmPjuDsH1Ln0bMjeH5kwy52aolwZxKOQA5bId5VkYgXw92EKxhTtXVFg8MxvBnBpTwX7EPTsP3RXLNux4mr6mbhC1Ww+IWrPUbaNH47bf5iHYjTBK4M6jOmGlw8plY+Q8jjEu4s2O60nVLFlO0pBjLoHas+j3/m6A6kgzzNQx0JGgOH2qe3DJXdANSjbLkCt3VXJwCRzm3nJNQuE/UkxSkDFlh2WIn5nVyYD8RCcFAzOGNXQB88cT2Q66wQLdamrJcqN/hD47PC2wHvCo7yTz9ZLVoSBa37vBHU6weIlu3togSWUtH/eoJ1ncuHuaQ7Zm0+/FO17Z5zJx7F1bPzt7ri3c4rdm8PpT6nFrlrE40pxuG8OX7/js+3L/MGh5AeO7v/T5EzG3zPSM96K40tUus941iJ1PZGwLs2bthucsKLgwi/k7in4K1wA2IIpHCUJDaDZvIuhrheRHTQ72NVRgZp5o20ZWxZ4usqVciYwtjQfYWcZBxHfTfPwySoEEFwy5ORgDWg5RDdv1EjkgNJamK2uuxmeI+YYOxiW3n8ToA6WULxxHthxL5+SSAt77KjAg3qW5DBnZNoB1usYR/V3jWF916HONSWMESgQ+YgXll4uzL6p8w="
-script:
-  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=LazosFamiliares_DevOpsJava
-  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-  - docker build -t lazos-travis-docker .
-  - docker tag lazos-travis-docker juanphozm/lazos-travis-docker:latest
-  - docker images
-  - docker push juanphozm/lazos-travis-docker:latest
 before_install:
   - chmod +x mvnw
+  - wget -qO- https://toobelt.heroku.com/install.sh | sh
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USER" --password-stdin registry.heroku.com/lazos-devops-docker/web
+script:
+  - docker build -t lazos-travis-docker .
+  - docker tag lazos-travis-docker juanphozm/lazos-travis-docker:latest
 deploy:
-  provider: heroku
-  api_key:
-    secure: "H+T6X2Yk683WOWll7NXxN9GsvU9msbWqAMRzNyLoWqdSqncRt4VX16j6gPp+iYUdR+KUONQUNIEA6ZabXAMfVKEgxtjgwmzpZJMvD8+nYEkX2OaBiAq6JJaxuz7T5r0yDE8uJAzOgSbHEOLab+fHZFo6oU9c4n5HdNA4PPCItH8n60XsXvU4ELYfyhiXUhqX8nx8SOLUP2CDsYlj4ioLRAveFxFymlldPzK+E9gOnLc27ItfMkgZo2j+I+1Z/tg0GbISP+44dlHfUQCOi65/Crys2I+baR4t5j4pJm1g/vuFXo7pdpH6McQ9r7HtoWGk8bmxz5kupCOXOUNRl4VSQ7z/KBmkubd+A9bvwYYfbFKbqAW5jDTFks4dhqOeZ4JuBhBIqTustmtPXHczquItn3RcEFVNmXEaG3ePQxHCByXgFVvvw00c9hvtZa3p1T/4YX99PpgT6Zw5dDH1DMvFaorYN6XR6Doty6bZs6nPSFBLKIyMsIlZt/L7dlgXcrDJ4QqWgSdZamLFNh2COdRt5wrn2EqkodD90UMWhcCwg7RgL8PcNS3lUP3TyDPkCTcSj22k7xt2bBQm8QLMa0vEjht9UMWJYOpnjf6nRxQXWf0kyPRH99uiNb1q8LI4IrlFeLyIEz/Jep/+uDIPD0+Mw0qsF5z2k+d6x2V53KrhEhw="
-  app:
-    main: devopsjava
+  provider: script
+  script:
+    docker push juanphozm/lazos-travis-docker:latest
+    heroku stack:set container --app lazos-devops-docker
+    heroku container:push web --app lazos-devops-docker
+    heroku container:release web --app lazos-devops-docker
+  on:
+    branch: main
