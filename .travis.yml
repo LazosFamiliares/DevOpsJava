@@ -7,22 +7,20 @@ addons:
     organization: "lazosfamiliares1"
     token:
       secure: "PsDwZnkvddsNXdULxTVouRyoA6CCcvOlgbmI/rre0sPcLOlwcpWIPxOqmZmPjuDsH1Ln0bMjeH5kwy52aolwZxKOQA5bId5VkYgXw92EKxhTtXVFg8MxvBnBpTwX7EPTsP3RXLNux4mr6mbhC1Ww+IWrPUbaNH47bf5iHYjTBK4M6jOmGlw8plY+Q8jjEu4s2O60nVLFlO0pBjLoHas+j3/m6A6kgzzNQx0JGgOH2qe3DJXdANSjbLkCt3VXJwCRzm3nJNQuE/UkxSkDFlh2WIn5nVyYD8RCcFAzOGNXQB88cT2Q66wQLdamrJcqN/hD47PC2wHvCo7yTz9ZLVoSBa37vBHU6weIlu3togSWUtH/eoJ1ncuHuaQ7Zm0+/FO17Z5zJx7F1bPzt7ri3c4rdm8PpT6nFrlrE40pxuG8OX7/js+3L/MGh5AeO7v/T5EzG3zPSM96K40tUus941iJ1PZGwLs2bthucsKLgwi/k7in4K1wA2IIpHCUJDaDZvIuhrheRHTQ72NVRgZp5o20ZWxZ4usqVciYwtjQfYWcZBxHfTfPwySoEEFwy5ORgDWg5RDdv1EjkgNJamK2uuxmeI+YYOxiW3n8ToA6WULxxHthxL5+SSAt77KjAg3qW5DBnZNoB1usYR/V3jWF916HONSWMESgQ+YgXll4uzL6p8w="
-script:
-  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=LazosFamiliares_DevOpsJava
-  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-  - docker build -t lazos-travis-docker .
-  - docker tag lazos-travis-docker juanphozm/lazos-travis-docker:latest
-  - docker images
-  - docker push juanphozm/lazos-travis-docker:latest
-  - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USER" --password-stdin registry.heroku.com
-  - docker images
-  - heroku create sample-devops-docker
-  - heroku container:login
-  - heroku stack:set container --app lazos-devops-docker
-  - heroku container:push --recursive
 before_install:
   - chmod +x mvnw
-  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
   - wget -qO- https://toobelt.heroku.com/install.sh | sh
-  - docker login --username=$HEROKU_USER --password=$HEROKU_PASSWORD registry.heroku.com
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USER" --password-stdin registry.heroku.com/lazos-devops-docker/web
+script:
+  - docker build -t lazos-travis-docker .
+  - docker tag lazos-travis-docker juanphozm/lazos-travis-docker:latest
+deploy:
+  provider: script
+  script:
+    docker push juanphozm/lazos-travis-docker:latest
+    heroku stack:set container --app lazos-devops-docker
+    heroku container:push web --app lazos-devops-docker
+    heroku container:release web --app lazos-devops-docker
+  on:
+    branch: main
