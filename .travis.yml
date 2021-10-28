@@ -15,11 +15,6 @@ script:
   - docker tag lazos-travis-docker juanphozm/lazos-travis-docker:latest
   - docker images
   - docker push juanphozm/lazos-travis-docker:latest
-  - heroku login
-  - heroku create sample-devops-docker
-  - heroku container:login
-  - heroku stack:set container --app lazos-devops-docker
-  - heroku container:push --recursive
 before_install:
   - chmod +x mvnw
 deploy:
