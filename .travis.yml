@@ -17,7 +17,5 @@ script:
   - docker tag lazos-travis-docker juanphozm/lazos-travis-docker:latest
   - docker push juanphozm/lazos-travis-docker:latest
   - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USER" --password-stdin registry.heroku.com/lazos-devops-docker/web
-  - heroku container:login
-  - heroku stack:set container --app lazos-devops-docker
   - heroku container:push web --app lazos-devops-docker
   - heroku container:release web --app lazos-devops-docker
