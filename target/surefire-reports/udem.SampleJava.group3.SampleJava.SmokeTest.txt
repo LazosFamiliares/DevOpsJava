@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: udem.SampleJava.group3.SampleJava.SmokeTest
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.865 s - in udem.SampleJava.group3.SampleJava.SmokeTest
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 21.951 s - in udem.SampleJava.group3.SampleJava.SmokeTest
